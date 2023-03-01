@@ -1,5 +1,7 @@
 const buttons = document.querySelectorAll("button");
 const results = document.getElementById("results");
+const playerScoreDisplay = document.getElementById("player-score");
+const computerScoreDisplay = document.getElementById("computer-score");
 
 function getComputerChoice() {
   const CHOICES = ["rock", "paper", "scissors"];
@@ -47,36 +49,36 @@ function playRound(playerChoice, computerChoice) {
   }
 }
 
-/*
-function game() {
-  let playerWins = 0;
-  let computerWins = 0;
-
-  for (let i = 0; i < 5; i++) {
-    let playerChoice = prompt("Choose your weapon:").toLowerCase();
-    let computerChoice = getComputerChoice();
-    let result = playRound(playerChoice, computerChoice);
-
-    if (result === "playerWin") playerWins++;
-    if (result === "computerWin") computerWins++;
-  }
-
-  console.log("\n");
-  console.log(`Final Score`);
-  console.log(`------------`);
-  console.log(`Player: ${playerWins}`);
-  console.log(`Computer: ${computerWins}`);
+function updateScoreDisplays() {
+  playerScoreDisplay.textContent = playerScore;
+  computerScoreDisplay.textContent = computerScore;
 }
 
-game();
-*/
+function endGame(winner) {
+  results.textContent = `Game over! ${winner} wins!`;
+
+  for (let button of buttons) {
+    button.removeEventListener("click", handleClick);
+  }
+}
+
+function handleClick(e) {
+  let playerChoice = e.target.id;
+  let computerChoice = getComputerChoice();
+  let result = playRound(playerChoice, computerChoice);
+
+  if (result === "playerWin") playerScore++;
+  if (result === "computerWin") computerScore++;
+
+  updateScoreDisplays();
+
+  if (playerScore === 5) endGame("Player");
+  if (computerScore === 5) endGame("Computer");
+}
+
+let playerScore = 0;
+let computerScore = 0;
 
 for (let button of buttons) {
-  button.addEventListener("click", (e) => {
-    let playerChoice = e.target.id;
-    let computerChoice = getComputerChoice();
-    playRound(playerChoice, computerChoice);
-  });
+  button.addEventListener("click", handleClick);
 }
-
-console.log(results);
