@@ -48,6 +48,7 @@ function playRound(playerChoice, computerChoice) {
   }
 }
 
+/*
 function game() {
   let playerWins = 0;
   let computerWins = 0;
@@ -69,3 +70,14 @@ function game() {
 }
 
 game();
+*/
+
+const buttons = document.querySelectorAll("button");
+
+for (let button of buttons) {
+  button.addEventListener("click", (e) => {
+    let playerChoice = e.target.id;
+    let computerChoice = getComputerChoice();
+    playRound(playerChoice, computerChoice);
+  });
+}
